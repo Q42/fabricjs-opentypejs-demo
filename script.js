@@ -27,6 +27,10 @@ $(document).ready(function() {
   CanvasRenderingContext2D.prototype.measureText = function(text) {
     var width;
     var font = fonts[this.getFontFamily()];
+    if (!font) {
+      console.error('Cannot find font', this.getFontFamily(), fonts);
+      return;
+    }
     font.forEachGlyph(text + " ", 0, 0, this.getFontSize(), {}, function(glyph, x, y) {
       width = x;
     });
@@ -38,7 +42,11 @@ $(document).ready(function() {
   // load the fonts we're going to use, OTF & TTF in this case
   function loadFont(name, path) {
     opentype.load(path, function (err, font) {
-      fonts[name] = font;
+      if (err) {
+        console.error('Error loading font ' + name + ' at ' + path, err);
+      } else {
+        fonts[name] = font;
+      }
     });
   }
   loadFont('sourceSansPro', 'fonts/SourceSansPro-Regular.otf');
