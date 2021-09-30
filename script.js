@@ -18,11 +18,11 @@ $(document).ready(function() {
 
   // helper functions to render the opentype path of a text
   CanvasRenderingContext2D.prototype.getFontSize = function() {
-    // this.font is for example `68px AstaSansLightA1`
+    // this.font is for example `68px AstaSansLightA1` or `68.12333px AstaSansLightA1`
     return 1 * this.font.match(/\d+/)[0];
   }
   CanvasRenderingContext2D.prototype.getFontFamily = function() {
-    return this.font.match(/^\d+px (.*)/)[1];
+    return this.font.match(/^[\d\.]+px (.*)/)[1];
   }
   CanvasRenderingContext2D.prototype.measureText = function(text) {
     var width;
